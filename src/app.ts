@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { join } from "path";
 import AutoLoad, { AutoloadPluginOptions } from "fastify-autoload";
 import { FastifyPluginAsync } from "fastify";
