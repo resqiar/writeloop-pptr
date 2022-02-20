@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { join } from "path";
 import AutoLoad, { AutoloadPluginOptions } from "fastify-autoload";
 import { FastifyPluginAsync } from "fastify";
@@ -12,7 +13,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
 ): Promise<void> => {
   // Place here your custom code!
   void fastify.register(require("fastify-cors"), {
-    origin: "*",
+    origin: process.env.CLIENT_URI,
   });
 
   // Do not touch the following lines

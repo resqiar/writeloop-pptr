@@ -12,7 +12,7 @@ export default async function getPdf(
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto(`http://localhost:3000/blog/${props.id}`);
+  await page.goto(`${process.env.CLIENT_URI}/blog/${props.id}`);
 
   await page.emulateMediaType("screen");
   const pdf = await page.pdf({ format: "legal", printBackground: true });
