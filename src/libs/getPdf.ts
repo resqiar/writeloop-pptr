@@ -9,7 +9,10 @@ export default async function getPdf(
 ): Promise<ArrayBuffer | undefined> {
   if (!props.id) return;
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox"],
+  });
   const page = await browser.newPage();
 
   await page.goto(`${process.env.CLIENT_URI}/blog/${props.id}`);
