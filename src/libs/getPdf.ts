@@ -27,7 +27,7 @@ export default async function getPdf(
   });
 
   const pdf = await page.pdf({
-    format: "a4",
+    format: "legal",
     printBackground: true,
   });
 
