@@ -16,9 +16,7 @@ export default async function getPdf(
   });
   const page = await browser.newPage();
 
-  await page.goto(`${process.env.CLIENT_URI}/${props.username}/${props.slug}`, {
-    waitUntil: "networkidle0",
-  });
+  await page.goto(`${process.env.CLIENT_URI}/${props.username}/${props.slug}`);
 
   await page.emulateMediaType("screen");
 
