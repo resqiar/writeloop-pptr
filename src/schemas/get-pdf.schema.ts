@@ -4,9 +4,10 @@ export const getPdfOpts: RouteShorthandOptions = {
   schema: {
     querystring: {
       type: "object",
-      required: ["blogId"],
+      required: ["username", "slug"],
       properties: {
-        blogId: { type: "string" },
+        username: { type: "string" },
+        slug: { type: "string" },
         filename: { type: "string" },
       },
     },
