@@ -1,4 +1,5 @@
 export interface IGetPdfBody {
-  blogId: string;
+  username: string;
+  slug: string;
   filename?: string;
 }
