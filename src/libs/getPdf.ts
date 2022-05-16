@@ -16,14 +16,18 @@ export default async function getPdf(
   });
   const page = await browser.newPage();
 
-  await page.goto(`${process.env.CLIENT_URI}/${props.username}/${props.slug}`);
+  await page.goto(`${process.env.CLIENT_URI}/${props.username}/${props.slug}`, {
+    waitUntil: "networkidle0",
+  });
 
-  await page.emulateMediaType("print");
+  await page.emulateMediaType("screen");
 
   await page.evaluate(() => {
-    const footer = document.querySelector("#footer-wrapper");
-    if (!footer?.parentNode) return;
-    footer.parentNode.removeChild(footer);
+    const hiddens = document.querySelectorAll(".hide-when-print");
+    if (!hiddens) return;
+    for (let index = 0; index < hiddens.length; index++) {
+      hiddens[index].parentNode?.removeChild(hiddens[index]);
+    }
   });
 
   const pdf = await page.pdf({
