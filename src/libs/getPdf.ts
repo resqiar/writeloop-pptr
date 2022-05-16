@@ -18,7 +18,7 @@ export default async function getPdf(
 
   await page.goto(`${process.env.CLIENT_URI}/${props.username}/${props.slug}`);
 
-  await page.emulateMediaType("screen");
+  await page.emulateMediaType("print");
 
   await page.evaluate(() => {
     const footer = document.querySelector("#footer-wrapper");
@@ -27,7 +27,7 @@ export default async function getPdf(
   });
 
   const pdf = await page.pdf({
-    format: "legal",
+    format: "a4",
     printBackground: true,
   });
 
