@@ -1,13 +1,14 @@
 import * as puppeteer from "puppeteer";
 
 interface Props {
-  id: string;
+  username: string;
+  slug: string;
 }
 
 export default async function getPdf(
   props: Props
 ): Promise<ArrayBuffer | undefined> {
-  if (!props.id) return;
+  if (!props.username || !props.slug) return;
 
   const browser = await puppeteer.launch({
     headless: true,
@@ -15,7 +16,7 @@ export default async function getPdf(
   });
   const page = await browser.newPage();
 
-  await page.goto(`${process.env.CLIENT_URI}/blog/${props.id}`);
+  await page.goto(`${process.env.CLIENT_URI}/${props.username}/${props.slug}`);
 
   await page.emulateMediaType("screen");
   const pdf = await page.pdf({ format: "legal", printBackground: true });

@@ -13,7 +13,8 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     getPdfOpts,
     async function (request, reply) {
       const extractPdf = await getPdf({
-        id: request.query.blogId,
+        username: request.query.username,
+        slug: request.query.slug,
       });
 
       /**
