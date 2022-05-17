@@ -22,15 +22,14 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
        * if none is provided, the filename will be
        * generated randomly by Date.now()
        */
-      const random_filename = extractPdf?.filename ?? Date.now().toString();
-      const filename = request.query.filename ?? random_filename;
+      const filename = request.query.filename ?? Date.now().toString();
 
       reply.header(
         "Content-Disposition",
-        "attachment; filename=" + filename.trim() + ".pdf"
+        "attachment; filename=" + filename + ".pdf"
       );
       reply.type("application/pdf");
-      reply.send(extractPdf?.raw);
+      reply.send(extractPdf);
     }
   );
 };
