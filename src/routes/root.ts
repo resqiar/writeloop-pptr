@@ -27,7 +27,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 
       reply.header(
         "Content-Disposition",
-        "attachment; filename=" + filename + ".pdf"
+        "attachment; filename=" + filename.trim() + ".pdf"
       );
       reply.type("application/pdf");
       reply.send(extractPdf?.raw);

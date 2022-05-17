@@ -12,7 +12,7 @@ export default async function getPdf(
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: ["--no-sandbox"],
+    // args: ["--no-sandbox"],
   });
   const page = await browser.newPage();
 
@@ -22,12 +22,7 @@ export default async function getPdf(
 
   await page.emulateMediaType("screen");
 
-  let title;
-
   await page.evaluate(() => {
-    const extTitle = document.querySelector("#blog-title-og");
-    title = extTitle;
-
     const hiddens = document.querySelectorAll(".hide-when-print");
     if (!hiddens) return;
     for (let index = 0; index < hiddens.length; index++) {
@@ -35,11 +30,27 @@ export default async function getPdf(
     }
   });
 
+  // get title from the blog
+  const title = (await getTitle(page)) as string | undefined;
+
+  // take a snapshot and return as a pdf
   const pdf = await page.pdf({
     format: "legal",
     printBackground: true,
   });
 
+  // close browser window
   await browser.close();
+
+  // return raw and filename
   return { raw: pdf, filename: title };
+}
+
+async function getTitle(page: puppeteer.Page): Promise<any> {
+  return await page.evaluate(async () => {
+    return await new Promise((resolve) => {
+      const extTitle = document.querySelector("#blog-title-og")?.innerHTML;
+      resolve(extTitle);
+    });
+  });
 }
