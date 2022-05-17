@@ -7,7 +7,7 @@ interface Props {
 
 export default async function getPdf(
   props: Props
-): Promise<ArrayBuffer | undefined> {
+): Promise<{ raw: ArrayBuffer; filename: string | undefined } | undefined> {
   if (!props.username || !props.slug) return;
 
   const browser = await puppeteer.launch({
@@ -22,7 +22,12 @@ export default async function getPdf(
 
   await page.emulateMediaType("screen");
 
+  let title;
+
   await page.evaluate(() => {
+    const extTitle = document.querySelector("#blog-title-og");
+    title = extTitle;
+
     const hiddens = document.querySelectorAll(".hide-when-print");
     if (!hiddens) return;
     for (let index = 0; index < hiddens.length; index++) {
@@ -36,5 +41,5 @@ export default async function getPdf(
   });
 
   await browser.close();
-  return pdf;
+  return { raw: pdf, filename: title };
 }
